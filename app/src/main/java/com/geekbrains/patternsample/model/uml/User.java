@@ -1,5 +1,11 @@
 package com.geekbrains.patternsample.model.uml;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 public class User {
     private Purchase purchase;
 
@@ -18,8 +24,15 @@ public class User {
 
     }
 
-    public Purchase clonePurchase(Purchase oldPurchase){
+    public static Purchase clonePurchase(Purchase oldPurchase) throws IOException, ClassNotFoundException {
         //TODO реализовать патерн Прототип
-        return oldPurchase;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bos);
+        out.writeObject(oldPurchase);
+
+        ByteArrayInputStream bis = new   ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream in = new ObjectInputStream(bis);
+        Purchase copied = (Purchase) in.readObject();
+        return copied;
     }
 }

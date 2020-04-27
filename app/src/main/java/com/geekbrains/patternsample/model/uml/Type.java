@@ -1,6 +1,8 @@
 package com.geekbrains.patternsample.model.uml;
 
-public class Type {
+import java.io.Serializable;
+
+public class Type implements Serializable {
     private String name;
     private Location location;
 

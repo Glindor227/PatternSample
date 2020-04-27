@@ -54,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements MainStateView {
 
     @Override
     public void presenterCallback(String toUI) {
-        ((TextView )findViewById(R.id.outText)).setText(toUI);
+        TextView  textRez = findViewById(R.id.outText);
+        textRez.setText(textRez.getText().toString().concat(toUI));
         Snackbar.make(findViewById(android.R.id.content), "FloatingActionButton press", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show();
     }

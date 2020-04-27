@@ -1,9 +1,10 @@
 package com.geekbrains.patternsample.model.uml;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Purchase {
+public class Purchase implements Serializable {
     private List<Product> products;
 
     public Purchase() {
@@ -33,7 +34,7 @@ public class Purchase {
             strP.append(p.getTitle()).append(" - ");
             if (p.getPrice()!=null)
                 strP.append(p.getPrice().getCost()).append(" - ");
-            strP.append(p.getCount()).append("\n");
+            strP.append(p.getCount()).append("\n\n");
         }
         return strP.toString();
     }

@@ -1,6 +1,8 @@
 package com.geekbrains.patternsample.model.uml;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private String id = generateId();;
     private String name = "";
     private String title = "";

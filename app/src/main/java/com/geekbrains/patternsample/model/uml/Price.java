@@ -1,6 +1,8 @@
 package com.geekbrains.patternsample.model.uml;
 
-public class Price {
+import java.io.Serializable;
+
+public class Price implements Serializable {
     private float cost;
     private boolean sale;
 

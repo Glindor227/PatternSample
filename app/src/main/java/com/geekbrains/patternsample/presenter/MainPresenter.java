@@ -6,7 +6,10 @@ import com.geekbrains.patternsample.model.uml.Price;
 import com.geekbrains.patternsample.model.uml.Product;
 import com.geekbrains.patternsample.model.uml.Purchase;
 import com.geekbrains.patternsample.model.uml.Type;
+import com.geekbrains.patternsample.model.uml.User;
 import com.geekbrains.patternsample.view.MainStateView;
+
+import java.io.IOException;
 
 /**
  *Область: сейчас в условиях изоляции в магазин за продуктами хожу один, без жены.
@@ -71,7 +74,17 @@ public class MainPresenter {
                 MainRepository.getInstance().getTypesByName("Фарш"),
                 1));
 
+        Purchase purchase2 = new Purchase();
+        try {
+            purchase2 = User.clonePurchase(purchase);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        purchase.getProducts().add(new Product(
+                MainRepository.getInstance().getTypesByName("Стейк"),
+                2));
         mainStateView.presenterCallback(purchase.print());
+        mainStateView.presenterCallback(purchase2.print());
 
     }
 }
