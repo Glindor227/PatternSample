@@ -11,26 +11,8 @@ public class Product implements Serializable {
     private Integer count;
     private Boolean complete = false;
 
-    // TODO множественный конструктор - применить патерн Строитель
-    //Продукт с точным соответствием
-    public Product( String name, String title, Price price, Type type, Integer count) {
-        this.type = type; // йогурт (в Молочке)
-        this.name = name; // натуральный обезжиренный
-        this.title = title;// фабрики Бабаевской
-        this.price = price; // 37.50(скидка есть)
-        this.count = count; // 2 штуки
-    }
 
-    // Продукт с неточным описанием
-    public Product( String name, Type type, Integer count) {
-        this.type = type; // йогурт (в Молочке)
-        this.name = name; // натуральный обезжиренный
-//        this.title = "";
-//        this.price = null;
-        this.count = count; // 2 штуки
-    }
-
-    // Продукт с примерным описанием
+    // Продукт с минимальным описанием
     public Product(Type type, Integer count) {
         this.type = type; // йогурт (в Молочке)
 //        this.name = "";
@@ -38,6 +20,9 @@ public class Product implements Serializable {
 //        this.price = null;
         this.count = count; // 2 штуки
     }
+
+
+
 
 
     private String generateId() {
@@ -74,5 +59,26 @@ public class Product implements Serializable {
 
     public Boolean getComplete() {
         return complete;
+    }
+
+    //реализация патерна Builder
+    public static Builder newBuilder(Type type, Integer count){
+        return new Product(type, count).new Builder();
+    }
+    public class Builder{
+        private Builder() {
+        }
+        public Builder setName(String name){
+            Product.this.name = name;
+            return this;
+        }
+        public Builder setStrong(String title, Price price){
+            Product.this.title = title;
+            Product.this.price = price;
+            return this;
+        }
+        public Product build(){
+            return Product.this;
+        }
     }
 }

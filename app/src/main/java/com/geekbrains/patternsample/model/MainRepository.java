@@ -10,6 +10,7 @@ public class MainRepository {
     private List<Type> types;
     private List<Location> locations;
 
+    // реализация патерна Singleton
     private static MainRepository instance;
     public static MainRepository getInstance(){
         if(MainRepository.instance==null){
@@ -22,7 +23,7 @@ public class MainRepository {
         return MainRepository.instance;
     }
 
-    public MainRepository() {
+    private MainRepository() {
         types = new ArrayList<>();
         locations = new ArrayList<>();
     }

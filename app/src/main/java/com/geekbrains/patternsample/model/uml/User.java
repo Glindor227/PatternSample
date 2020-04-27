@@ -25,7 +25,7 @@ public class User {
     }
 
     public static Purchase clonePurchase(Purchase oldPurchase) throws IOException, ClassNotFoundException {
-        //TODO реализовать патерн Прототип
+        //реализация патерна Прототип
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(bos);
         out.writeObject(oldPurchase);

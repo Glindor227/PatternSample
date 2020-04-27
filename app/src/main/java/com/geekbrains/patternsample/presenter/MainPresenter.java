@@ -30,7 +30,6 @@ public class MainPresenter {
 
     public MainPresenter(MainStateView mainStateView) {
         this.mainStateView = mainStateView;
-        //TODO а репозиторий, который может заполняься в разных местах, надо сделать Singleton
 //        mainRepository = new MainRepository();
         initRepository();
     }
@@ -62,17 +61,22 @@ public class MainPresenter {
      */
     public void newPurchase(){
         purchase = new Purchase();
-        purchase.addProduct(new Product("натуральный обезжиренный"
-                ,"фабрики Бабаевской"
-                , new Price(37.5f,true)
-                , MainRepository.getInstance().getTypesByName("Йогурт"),
-                2));
-        purchase.addProduct(new Product("Анансовый"
-                , MainRepository.getInstance().getTypesByName("Сок"),
-                1));
-        purchase.addProduct(new Product(
-                MainRepository.getInstance().getTypesByName("Фарш"),
-                1));
+        purchase.addProduct(
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Йогурт"),2)
+                    .setName("натуральный обезжиренный")
+                    .setStrong("фабрики Бабаевской",new Price(37.5f,true))
+                    .build()
+                );
+        purchase.addProduct(
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Сок"),1)
+                        .setName("Анансовый")
+                        .build()
+        );
+        purchase.addProduct(
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Фарш"),1)
+                        .build()
+        );
+
 
         Purchase purchase2 = new Purchase();
         try {
@@ -80,9 +84,10 @@ public class MainPresenter {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        purchase.getProducts().add(new Product(
-                MainRepository.getInstance().getTypesByName("Стейк"),
-                2));
+        purchase.addProduct(
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Стейк"),2)
+                        .build()
+        );
         mainStateView.presenterCallback(purchase.print());
         mainStateView.presenterCallback(purchase2.print());
 
