@@ -10,6 +10,18 @@ public class MainRepository {
     private List<Type> types;
     private List<Location> locations;
 
+    private static MainRepository instance;
+    public static MainRepository getInstance(){
+        if(MainRepository.instance==null){
+            synchronized (MainRepository.class){
+                if(MainRepository.instance==null){
+                    instance = new MainRepository();
+                }
+            }
+        }
+        return MainRepository.instance;
+    }
+
     public MainRepository() {
         types = new ArrayList<>();
         locations = new ArrayList<>();
@@ -23,7 +35,11 @@ public class MainRepository {
     }
 
     public Type getTypesByName(String name) {
-        // TODO пока не реализовано
+        // TODO конечно хранить и искать надо не так
+        for (Type t:types) {
+            if (t.getName().contains(name))
+                return t;
+        }
         return types.get(0);
     }
 

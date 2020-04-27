@@ -22,7 +22,19 @@ public class Purchase {
     public List<Product> getProducts() {
         return products;
     }
+    //забыли реализовать в init commit
     public String print(){
-        return "Список продуктов";
+        if(products==null || products.size()==0)
+            return "Список продуктов пуст";
+        StringBuilder strP = new StringBuilder();
+        for (Product p:products) {
+            strP.append(p.getType().getName()).append(" - ");
+            strP.append(p.getName()).append(" - ");
+            strP.append(p.getTitle()).append(" - ");
+            if (p.getPrice()!=null)
+                strP.append(p.getPrice().getCost()).append(" - ");
+            strP.append(p.getCount()).append("\n");
+        }
+        return strP.toString();
     }
 }
