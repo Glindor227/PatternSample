@@ -1,8 +1,10 @@
 package com.geekbrains.patternsample.model.uml;
 
+import com.geekbrains.patternsample.model.base.StringView;
+
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class Product implements Serializable, StringView {
     private String id = generateId();;
     private String name = "";
     private String title = "";
@@ -61,10 +63,25 @@ public class Product implements Serializable {
         return complete;
     }
 
+    @Override
+    public StringBuilder print(StringBuilder input) {
+        input = type.print(input);
+        input.append("Имя товара: ").append(name).append("\n");
+        input.append("Описание товара: ").append(title).append("\n");
+        if (price!=null)
+            input = price.print(input);
+        input.append("Количество: ").append(count).append("\n");
+
+        return input;
+    }
+
+
     //реализация патерна Builder
     public static Builder newBuilder(Type type, Integer count){
         return new Product(type, count).new Builder();
     }
+
+
     public class Builder{
         private Builder() {
         }

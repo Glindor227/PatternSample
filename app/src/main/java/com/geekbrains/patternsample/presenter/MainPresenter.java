@@ -86,8 +86,11 @@ public class MainPresenter {
                 Product.newBuilder(MainRepository.getInstance().getTypesByName("Стейк"),2)
                         .build()
         );
-        mainStateView.presenterCallback(purchase.print());
-        mainStateView.presenterCallback(purchase2.print());
+        StringBuilder strP = new StringBuilder();
+        mainStateView.presenterCallback(purchase.print(strP).toString());
+
+        StringBuilder strP1 = new StringBuilder();
+        mainStateView.presenterCallback(purchase2.print(strP1).toString());
 
     }
 }
