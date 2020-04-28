@@ -2,7 +2,7 @@ package com.geekbrains.patternsample.presenter;
 
 import com.geekbrains.patternsample.model.MainRepository;
 import com.geekbrains.patternsample.model.uml.Location;
-import com.geekbrains.patternsample.model.uml.Price;
+import com.geekbrains.patternsample.model.uml.MoneyBlock;
 import com.geekbrains.patternsample.model.uml.Product;
 import com.geekbrains.patternsample.model.uml.Purchase;
 import com.geekbrains.patternsample.model.uml.Type;
@@ -25,12 +25,10 @@ import java.io.IOException;
 
 public class MainPresenter {
     private MainStateView mainStateView;
-//    private MainRepository mainRepository;
     private Purchase purchase;
 
     public MainPresenter(MainStateView mainStateView) {
         this.mainStateView = mainStateView;
-//        mainRepository = new MainRepository();
         initRepository();
     }
 
@@ -64,7 +62,7 @@ public class MainPresenter {
         purchase.addProduct(
                 Product.newBuilder(MainRepository.getInstance().getTypesByName("Йогурт"),2)
                     .setName("натуральный обезжиренный")
-                    .setStrong("фабрики Бабаевской",new Price(37.5f,true))
+                    .setStrong("фабрики Бабаевской",new MoneyBlock(37.5f,true))
                     .build()
                 );
         purchase.addProduct(

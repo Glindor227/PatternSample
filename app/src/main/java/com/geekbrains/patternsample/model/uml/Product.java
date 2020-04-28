@@ -6,7 +6,7 @@ public class Product implements Serializable {
     private String id = generateId();;
     private String name = "";
     private String title = "";
-    private Price price ;
+    private MoneyBlock price ;
     private Type type;
     private Integer count;
     private Boolean complete = false;
@@ -45,7 +45,7 @@ public class Product implements Serializable {
         return title;
     }
 
-    public Price getPrice() {
+    public MoneyBlock getPrice() {
         return price;
     }
 
@@ -72,7 +72,7 @@ public class Product implements Serializable {
             Product.this.name = name;
             return this;
         }
-        public Builder setStrong(String title, Price price){
+        public Builder setStrong(String title, MoneyBlock price){
             Product.this.title = title;
             Product.this.price = price;
             return this;

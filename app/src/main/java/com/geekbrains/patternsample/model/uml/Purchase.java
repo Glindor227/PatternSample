@@ -23,7 +23,9 @@ public class Purchase implements Serializable {
     public List<Product> getProducts() {
         return products;
     }
+
     //забыли реализовать в init commit
+    //TODO надо для текстового представление обходить обьекты при пвощи патерна Компоновщик
     public String print(){
         if(products==null || products.size()==0)
             return "Список продуктов пуст";
