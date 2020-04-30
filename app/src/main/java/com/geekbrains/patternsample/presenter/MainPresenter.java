@@ -2,11 +2,14 @@ package com.geekbrains.patternsample.presenter;
 
 import com.geekbrains.patternsample.model.MainRepository;
 import com.geekbrains.patternsample.model.uml.Location;
-import com.geekbrains.patternsample.model.uml.Price;
+import com.geekbrains.patternsample.model.uml.MoneyBlock;
 import com.geekbrains.patternsample.model.uml.Product;
 import com.geekbrains.patternsample.model.uml.Purchase;
 import com.geekbrains.patternsample.model.uml.Type;
+import com.geekbrains.patternsample.model.uml.User;
 import com.geekbrains.patternsample.view.MainStateView;
+
+import java.io.IOException;
 
 /**
  *Область: сейчас в условиях изоляции в магазин за продуктами хожу один, без жены.
@@ -22,13 +25,10 @@ import com.geekbrains.patternsample.view.MainStateView;
 
 public class MainPresenter {
     private MainStateView mainStateView;
-    private MainRepository mainRepository;
     private Purchase purchase;
 
     public MainPresenter(MainStateView mainStateView) {
         this.mainStateView = mainStateView;
-        //TODO а репозиторий, который может заполняься в разных местах, надо сделать Singleton
-        mainRepository = new MainRepository();
         initRepository();
     }
 
@@ -36,22 +36,22 @@ public class MainPresenter {
     // должна вычитыватся откудато
     // для конкретного магазина должна пользователем коректироваться протритет отдела(порядок обхода)
     private void initRepository() {
-        Location l1 = new Location("Молочка",1);mainRepository.addLocation(l1);
-        mainRepository.addType(new Type("Молоко",l1));
-        mainRepository.addType(new Type("Йогурт",l1));
+        Location l1 = new Location("Молочка",1);MainRepository.getInstance().addLocation(l1);
+        MainRepository.getInstance().addType(new Type("Молоко",l1));
+        MainRepository.getInstance().addType(new Type("Йогурт",l1));
 
-        Location l2 = new Location("Хлеб",2); mainRepository.addLocation(l2);
-        mainRepository.addType(new Type("Батон",l2));
-        mainRepository.addType(new Type("Пироженкое",l2));
+        Location l2 = new Location("Хлеб",2);  MainRepository.getInstance().addLocation(l2);
+        MainRepository.getInstance().addType(new Type("Батон",l2));
+        MainRepository.getInstance().addType(new Type("Пироженкое",l2));
 
-        Location l3 = new Location("Напитки",3);mainRepository.addLocation(l3);
-        mainRepository.addType(new Type("Газеровка",l3));
-        mainRepository.addType(new Type("Сок",l3));
+        Location l3 = new Location("Напитки",3); MainRepository.getInstance().addLocation(l3);
+        MainRepository.getInstance().addType(new Type("Газеровка",l3));
+        MainRepository.getInstance().addType(new Type("Сок",l3));
 
-        Location l4 = new Location("Мясной",4);mainRepository.addLocation(l4);
-        mainRepository.addType(new Type("Шашлык",l4));
-        mainRepository.addType(new Type("Фарш",l4));
-        mainRepository.addType(new Type("Стейк",l4));
+        Location l4 = new Location("Мясной",4); MainRepository.getInstance().addLocation(l4);
+        MainRepository.getInstance().addType(new Type("Шашлык",l4));
+        MainRepository.getInstance().addType(new Type("Фарш",l4));
+        MainRepository.getInstance().addType(new Type("Стейк",l4));
     }
 
     /**
@@ -59,19 +59,38 @@ public class MainPresenter {
      */
     public void newPurchase(){
         purchase = new Purchase();
-        purchase.addProduct(new Product("натуральный обезжиренный"
-                ,"фабрики Бабаевской"
-                , new Price(37.5f,true)
-                ,mainRepository.getTypesByName("Йогурт"),
-                2));
-        purchase.addProduct(new Product("Анансовый"
-                ,mainRepository.getTypesByName("Сок"),
-                1));
-        purchase.addProduct(new Product(
-                mainRepository.getTypesByName("Фарш"),
-                1));
+        purchase.addProduct(
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Йогурт"),2)
+                    .setName("натуральный обезжиренный")
+                    .setStrong("фабрики Бабаевской",new MoneyBlock(37.5f,true))
+                    .build()
+                );
+        purchase.addProduct(
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Сок"),1)
+                        .setName("Анансовый")
+                        .build()
+        );
+        purchase.addProduct(
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Фарш"),1)
+                        .build()
+        );
 
-        mainStateView.presenterCallback(purchase.print());
+
+        Purchase purchase2 = new Purchase();
+        try {
+            purchase2 = User.clonePurchase(purchase);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        purchase.addProduct(
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Стейк"),2)
+                        .build()
+        );
+        StringBuilder strP = new StringBuilder();
+        mainStateView.presenterCallback(purchase.print(strP).toString());
+
+        StringBuilder strP1 = new StringBuilder();
+        mainStateView.presenterCallback(purchase2.print(strP1).toString());
 
     }
 }

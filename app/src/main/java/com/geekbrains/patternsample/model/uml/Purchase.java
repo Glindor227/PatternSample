@@ -1,9 +1,12 @@
 package com.geekbrains.patternsample.model.uml;
 
+import com.geekbrains.patternsample.model.base.StringView;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Purchase {
+public class Purchase implements Serializable, StringView {
     private List<Product> products;
 
     public Purchase() {
@@ -22,7 +25,20 @@ public class Purchase {
     public List<Product> getProducts() {
         return products;
     }
-    public String print(){
-        return "Список продуктов";
+
+
+    //патерна Компоновщик
+    @Override
+    public StringBuilder print(StringBuilder input) {
+        if(products==null || products.size()==0)
+            return input.append("Список продуктов пуст");
+        input.append("Покупка:\n");
+        for (Product p:products) {
+            p.print(input);
+            input.append("\n");
+        }
+        input.append("\n");
+        input.append("\n");
+        return input;
     }
 }
