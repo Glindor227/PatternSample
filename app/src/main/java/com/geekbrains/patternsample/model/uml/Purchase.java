@@ -1,10 +1,12 @@
 package com.geekbrains.patternsample.model.uml;
 
+import com.geekbrains.patternsample.model.base.StringView;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Purchase implements Serializable {
+public class Purchase implements Serializable, StringView {
     private List<Product> products;
 
     public Purchase() {
@@ -16,6 +18,14 @@ public class Purchase implements Serializable {
      public void clear(){
         products.clear();
      }
+     public float getTotalMoney(){
+        float total = 0f;
+         for (Product p:products) {
+             //Декоратор
+             total = total + (new CalculateMoney(p)).getTotal();
+         }
+         return total;
+     }
      public void sortByLocation(){
         //TODO реализовать сортировку products по локации
      }
@@ -24,20 +34,18 @@ public class Purchase implements Serializable {
         return products;
     }
 
-    //забыли реализовать в init commit
-    //TODO надо для текстового представление обходить обьекты при пвощи патерна Компоновщик
-    public String print(){
+
+    //патерна Компоновщик
+    @Override
+    public StringBuilder print(StringBuilder input) {
         if(products==null || products.size()==0)
-            return "Список продуктов пуст";
-        StringBuilder strP = new StringBuilder();
+            return input.append("Список продуктов пуст");
+        input.append("Покупка:\n");
         for (Product p:products) {
-            strP.append(p.getType().getName()).append(" - ");
-            strP.append(p.getName()).append(" - ");
-            strP.append(p.getTitle()).append(" - ");
-            if (p.getPrice()!=null)
-                strP.append(p.getPrice().getCost()).append(" - ");
-            strP.append(p.getCount()).append("\n\n");
+            p.print(input);
+            input.append("\n");
         }
-        return strP.toString();
+        input.append("\n");
+        return input;
     }
 }

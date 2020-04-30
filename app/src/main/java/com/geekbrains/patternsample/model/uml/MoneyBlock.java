@@ -1,8 +1,10 @@
 package com.geekbrains.patternsample.model.uml;
 
+import com.geekbrains.patternsample.model.base.StringView;
+
 import java.io.Serializable;
 
-public class MoneyBlock implements Serializable {
+public class MoneyBlock implements Serializable, StringView {
     private float cost;
     private boolean sale;
 
@@ -18,5 +20,11 @@ public class MoneyBlock implements Serializable {
 
     public boolean isSale() {
         return sale;
+    }
+
+    @Override
+    public StringBuilder print(StringBuilder input) {
+        input.append("Цена товара: ").append(cost).append("\n");
+        return input;
     }
 }

@@ -1,24 +1,26 @@
 package com.geekbrains.patternsample.model.uml;
 
+import com.geekbrains.patternsample.model.base.StringView;
+
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class Product implements Serializable, StringView {
     private String id = generateId();;
     private String name = "";
     private String title = "";
     private MoneyBlock price ;
     private Type type;
-    private Integer count;
+    private Count count =null;
     private Boolean complete = false;
 
 
     // Продукт с минимальным описанием
-    public Product(Type type, Integer count) {
+    public Product(Type type) {
         this.type = type; // йогурт (в Молочке)
 //        this.name = "";
 //        this.title = "";
 //        this.price = null;
-        this.count = count; // 2 штуки
+//        this.count = count; // 2 штуки
     }
 
 
@@ -53,7 +55,7 @@ public class Product implements Serializable {
         return type;
     }
 
-    public Integer getCount() {
+    public Count getCount() {
         return count;
     }
 
@@ -61,15 +63,34 @@ public class Product implements Serializable {
         return complete;
     }
 
-    //реализация патерна Builder
-    public static Builder newBuilder(Type type, Integer count){
-        return new Product(type, count).new Builder();
+    @Override
+    public StringBuilder print(StringBuilder input) {
+        input = type.print(input);
+        input.append("Имя товара: ").append(name).append("\n");
+        input.append("Описание товара: ").append(title).append("\n");
+        if (price!=null)
+            input = price.print(input);
+        input= ((StringView)count).print(input);
+
+        return input;
     }
+
+
+    //реализация патерна Builder
+    public static Builder newBuilder(Type type){
+        return new Product(type).new Builder();
+    }
+
+
     public class Builder{
         private Builder() {
         }
         public Builder setName(String name){
             Product.this.name = name;
+            return this;
+        }
+        public Builder setCount(Count  count){
+            Product.this.count = count;
             return this;
         }
         public Builder setStrong(String title, MoneyBlock price){

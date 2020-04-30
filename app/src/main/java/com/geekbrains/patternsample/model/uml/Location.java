@@ -1,8 +1,10 @@
 package com.geekbrains.patternsample.model.uml;
 
+import com.geekbrains.patternsample.model.base.StringView;
+
 import java.io.Serializable;
 
-public class Location implements Serializable {
+public class Location implements Serializable, StringView {
     private String name;
     private Integer priority;
 
@@ -21,5 +23,11 @@ public class Location implements Serializable {
 
     public void setPriority(Integer priority) {
         this.priority = priority;
+    }
+
+    @Override
+    public StringBuilder print(StringBuilder input) {
+        input.append("Отдел: ").append(name).append("\n");
+        return input;
     }
 }
