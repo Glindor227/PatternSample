@@ -18,6 +18,14 @@ public class Purchase implements Serializable, StringView {
      public void clear(){
         products.clear();
      }
+     public float getTotalMoney(){
+        float total = 0f;
+         for (Product p:products) {
+             //Декоратор
+             total = total + (new CalculateMoney(p)).getTotal();
+         }
+         return total;
+     }
      public void sortByLocation(){
         //TODO реализовать сортировку products по локации
      }
@@ -37,7 +45,6 @@ public class Purchase implements Serializable, StringView {
             p.print(input);
             input.append("\n");
         }
-        input.append("\n");
         input.append("\n");
         return input;
     }

@@ -10,17 +10,17 @@ public class Product implements Serializable, StringView {
     private String title = "";
     private MoneyBlock price ;
     private Type type;
-    private Integer count;
+    private Count count =null;
     private Boolean complete = false;
 
 
     // Продукт с минимальным описанием
-    public Product(Type type, Integer count) {
+    public Product(Type type) {
         this.type = type; // йогурт (в Молочке)
 //        this.name = "";
 //        this.title = "";
 //        this.price = null;
-        this.count = count; // 2 штуки
+//        this.count = count; // 2 штуки
     }
 
 
@@ -55,7 +55,7 @@ public class Product implements Serializable, StringView {
         return type;
     }
 
-    public Integer getCount() {
+    public Count getCount() {
         return count;
     }
 
@@ -70,15 +70,15 @@ public class Product implements Serializable, StringView {
         input.append("Описание товара: ").append(title).append("\n");
         if (price!=null)
             input = price.print(input);
-        input.append("Количество: ").append(count).append("\n");
+        input= ((StringView)count).print(input);
 
         return input;
     }
 
 
     //реализация патерна Builder
-    public static Builder newBuilder(Type type, Integer count){
-        return new Product(type, count).new Builder();
+    public static Builder newBuilder(Type type){
+        return new Product(type).new Builder();
     }
 
 
@@ -87,6 +87,10 @@ public class Product implements Serializable, StringView {
         }
         public Builder setName(String name){
             Product.this.name = name;
+            return this;
+        }
+        public Builder setCount(Count  count){
+            Product.this.count = count;
             return this;
         }
         public Builder setStrong(String title, MoneyBlock price){

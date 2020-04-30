@@ -1,6 +1,8 @@
 package com.geekbrains.patternsample.presenter;
 
 import com.geekbrains.patternsample.model.MainRepository;
+import com.geekbrains.patternsample.model.uml.CountItem;
+import com.geekbrains.patternsample.model.uml.CountTotalMoney;
 import com.geekbrains.patternsample.model.uml.Location;
 import com.geekbrains.patternsample.model.uml.MoneyBlock;
 import com.geekbrains.patternsample.model.uml.Product;
@@ -25,7 +27,6 @@ import java.io.IOException;
 
 public class MainPresenter {
     private MainStateView mainStateView;
-    private Purchase purchase;
 
     public MainPresenter(MainStateView mainStateView) {
         this.mainStateView = mainStateView;
@@ -58,20 +59,23 @@ public class MainPresenter {
      * Типа, UI множествоим кликов сформировал этот список
      */
     public void newPurchase(){
-        purchase = new Purchase();
+        Purchase purchase = new Purchase();
         purchase.addProduct(
-                Product.newBuilder(MainRepository.getInstance().getTypesByName("Йогурт"),2)
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Йогурт"))
                     .setName("натуральный обезжиренный")
+                    .setCount(new CountItem(2))
                     .setStrong("фабрики Бабаевской",new MoneyBlock(37.5f,true))
                     .build()
                 );
         purchase.addProduct(
-                Product.newBuilder(MainRepository.getInstance().getTypesByName("Сок"),1)
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Сок"))
                         .setName("Анансовый")
+                        .setCount(new CountItem(1))
                         .build()
         );
         purchase.addProduct(
-                Product.newBuilder(MainRepository.getInstance().getTypesByName("Фарш"),1)
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Фарш"))
+                        .setCount(new CountTotalMoney(300f))
                         .build()
         );
 
@@ -83,14 +87,15 @@ public class MainPresenter {
             e.printStackTrace();
         }
         purchase.addProduct(
-                Product.newBuilder(MainRepository.getInstance().getTypesByName("Стейк"),2)
+                Product.newBuilder(MainRepository.getInstance().getTypesByName("Стейк"))
+                        .setCount(new CountTotalMoney(500f))
                         .build()
         );
         StringBuilder strP = new StringBuilder();
-        mainStateView.presenterCallback(purchase.print(strP).toString());
+        mainStateView.presenterCallback(purchase.print(strP).append("Итоговая стоимость: ").append(purchase.getTotalMoney()).append("\n").toString());
 
         StringBuilder strP1 = new StringBuilder();
-        mainStateView.presenterCallback(purchase2.print(strP1).toString());
+        mainStateView.presenterCallback(purchase2.print(strP1).append("Итоговая стоимость: ").append(purchase2.getTotalMoney()).append("\n").toString());
 
     }
 }
