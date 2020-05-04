@@ -28,7 +28,7 @@ public class Product implements Serializable, StringView {
 
 
     private String generateId() {
-        return "id";
+        return String.valueOf(Math.random());
     }
 
     public String getName() {
@@ -66,8 +66,10 @@ public class Product implements Serializable, StringView {
     @Override
     public StringBuilder print(StringBuilder input) {
         input = type.print(input);
-        input.append("Имя товара: ").append(name).append("\n");
-        input.append("Описание товара: ").append(title).append("\n");
+        if(name.length()>0)
+            input.append("Имя товара: ").append(name).append("\n");
+        if(title.length()>0)
+            input.append("Описание товара: ").append(title).append("\n");
         if (price!=null)
             input = price.print(input);
         input= ((StringView)count).print(input);
