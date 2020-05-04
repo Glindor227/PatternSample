@@ -1,6 +1,8 @@
 package com.geekbrains.patternsample.model.uml;
 
 import com.geekbrains.patternsample.model.base.StringView;
+import com.geekbrains.patternsample.model.uml.tools.ProductMinPriority;
+import com.geekbrains.patternsample.model.uml.tools.PurchaseIterator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,12 +42,21 @@ public class Purchase implements Serializable, StringView {
     public StringBuilder print(StringBuilder input) {
         if(products==null || products.size()==0)
             return input.append("Список продуктов пуст");
-        input.append("Покупка:\n");
+        input.append("Покупка:\n\n");
+
+        //Используем итератор и посредник
+        PurchaseIterator iterator = new PurchaseIterator(this,new ProductMinPriority());
+        while (iterator.hasNest()){
+            iterator.getNext().print(input);
+            input.append("\n");
+
+        }
+/*
         for (Product p:products) {
             p.print(input);
             input.append("\n");
         }
-        input.append("\n");
+*/
         return input;
     }
 }

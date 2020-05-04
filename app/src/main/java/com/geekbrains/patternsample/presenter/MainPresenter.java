@@ -37,19 +37,19 @@ public class MainPresenter {
     // должна вычитыватся откудато
     // для конкретного магазина должна пользователем коректироваться протритет отдела(порядок обхода)
     private void initRepository() {
-        Location l1 = new Location("Молочка",1);MainRepository.getInstance().addLocation(l1);
+        Location l1 = new Location("Молочка",2);MainRepository.getInstance().addLocation(l1);
         MainRepository.getInstance().addType(new Type("Молоко",l1));
         MainRepository.getInstance().addType(new Type("Йогурт",l1));
 
-        Location l2 = new Location("Хлеб",2);  MainRepository.getInstance().addLocation(l2);
+        Location l2 = new Location("Хлеб",3);  MainRepository.getInstance().addLocation(l2);
         MainRepository.getInstance().addType(new Type("Батон",l2));
         MainRepository.getInstance().addType(new Type("Пироженкое",l2));
 
-        Location l3 = new Location("Напитки",3); MainRepository.getInstance().addLocation(l3);
+        Location l3 = new Location("Напитки",4); MainRepository.getInstance().addLocation(l3);
         MainRepository.getInstance().addType(new Type("Газеровка",l3));
         MainRepository.getInstance().addType(new Type("Сок",l3));
 
-        Location l4 = new Location("Мясной",4); MainRepository.getInstance().addLocation(l4);
+        Location l4 = new Location("Мясной",1); MainRepository.getInstance().addLocation(l4);
         MainRepository.getInstance().addType(new Type("Шашлык",l4));
         MainRepository.getInstance().addType(new Type("Фарш",l4));
         MainRepository.getInstance().addType(new Type("Стейк",l4));
@@ -92,10 +92,10 @@ public class MainPresenter {
                         .build()
         );
         StringBuilder strP = new StringBuilder();
-        mainStateView.presenterCallback(purchase.print(strP).append("Итоговая стоимость: ").append(purchase.getTotalMoney()).append("\n").toString());
+        mainStateView.presenterCallback(purchase.print(strP).append("Итоговая стоимость: ").append(purchase.getTotalMoney()).append("\n\n\n").toString());
 
         StringBuilder strP1 = new StringBuilder();
-        mainStateView.presenterCallback(purchase2.print(strP1).append("Итоговая стоимость: ").append(purchase2.getTotalMoney()).append("\n").toString());
+        mainStateView.presenterCallback(purchase2.print(strP1).append("Итоговая стоимость: ").append(purchase2.getTotalMoney()).append("\n\n\n").toString());
 
     }
 }
