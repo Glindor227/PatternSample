@@ -1,10 +1,13 @@
 package com.geekbrains.patternsample.model.uml;
 
-public class Price {
+import java.io.Serializable;
+
+public class MoneyBlock implements Serializable {
     private float cost;
     private boolean sale;
 
-    public Price(float cost, boolean sale) {
+
+    public MoneyBlock(float cost, boolean sale) {
         this.cost = cost;
         this.sale = sale;
     }

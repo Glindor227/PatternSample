@@ -1,9 +1,10 @@
 package com.geekbrains.patternsample.model.uml;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Purchase {
+public class Purchase implements Serializable {
     private List<Product> products;
 
     public Purchase() {
@@ -22,7 +23,21 @@ public class Purchase {
     public List<Product> getProducts() {
         return products;
     }
+
+    //забыли реализовать в init commit
+    //TODO надо для текстового представление обходить обьекты при пвощи патерна Компоновщик
     public String print(){
-        return "Список продуктов";
+        if(products==null || products.size()==0)
+            return "Список продуктов пуст";
+        StringBuilder strP = new StringBuilder();
+        for (Product p:products) {
+            strP.append(p.getType().getName()).append(" - ");
+            strP.append(p.getName()).append(" - ");
+            strP.append(p.getTitle()).append(" - ");
+            if (p.getPrice()!=null)
+                strP.append(p.getPrice().getCost()).append(" - ");
+            strP.append(p.getCount()).append("\n\n");
+        }
+        return strP.toString();
     }
 }
